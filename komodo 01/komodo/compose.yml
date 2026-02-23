@@ -40,9 +40,9 @@ services:
     labels:
       - "komodo.skip=" # Prevent Komodo from stopping with StopAllContainers
       - "traefik.enable=true"
-      - "traefik.http.routers.myapp.rule=Host(`traefik.vandenbosch.dev`)"
-      - "traefik.http.routers.myapp.entrypoints=websecure"
-      - "traefik.http.routers.myapp.tls.certresolver=le"
+      - "traefik.http.routers.komodo.rule=Host(`komodo.vandenbosch.dev`)"
+      - "traefik.http.routers.komodo.entrypoints=websecure"
+      - "traefik.http.routers.komodo.tls.certresolver=le"
     networks:
       - proxy
 
