@@ -11,6 +11,9 @@ services:
       POSTGRES_PASSWORD: ${KOMODO_DB_PASSWORD}
       POSTGRES_DB: postgres
 
+    networks:
+      - proxy
+
   ferretdb:
     image: ghcr.io/ferretdb/ferretdb
     labels:
@@ -22,6 +25,9 @@ services:
       - ferretdb-state:/state
     environment:
       FERRETDB_POSTGRESQL_URL: postgres://${KOMODO_DB_USERNAME}:${KOMODO_DB_PASSWORD}@postgres:5432/postgres
+
+    networks:
+      - proxy
 
   core:
     image: ghcr.io/moghtech/komodo-core:${COMPOSE_KOMODO_IMAGE_TAG:-latest}
@@ -56,6 +62,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /proc:/proc
       - ${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}:${PERIPHERY_ROOT_DIRECTORY:-/etc/komodo}
+
+    networks:
+      - proxy
 
 volumes:
   # Postgres
