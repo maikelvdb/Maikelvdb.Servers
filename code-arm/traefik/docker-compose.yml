@@ -38,7 +38,6 @@ services:
       - "traefik.enable=true"
 
       # Dashboard router
-      - "traefik.http.routers.traefik.rule=Host(`traefik.vandenbosch.dev`)"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls.certresolver=le"
 
@@ -47,8 +46,6 @@ services:
 
       # Optional: basic auth middleware
       - "traefik.http.routers.traefik.middlewares=traefik-auth"
-
-      - "traefik.http.middlewares.traefik-auth.basicauth.users=admin:$$apr1$$AOhzuT1Z$$/c4GxPI6Z8O9/sEI4E2QE1"
 
     networks:
       - proxy
