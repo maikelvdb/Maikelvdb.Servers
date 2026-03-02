@@ -32,7 +32,7 @@ services:
 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./letsencrypt:/letsencrypt
+      - /letsencrypt:/letsencrypt
 
     labels:
       - "traefik.enable=true"
