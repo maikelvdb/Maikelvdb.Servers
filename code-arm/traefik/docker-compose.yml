@@ -41,11 +41,14 @@ services:
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls.certresolver=le"
 
+      - "traefik.http.routers.traefik.rule=Host(`code-traefik.vandenbosch.dev`)" # ← dit mist!
+      - "traefik.http.routers.traefik.tls=true"
+
       # Tell router to use internal api service
       - "traefik.http.routers.traefik.service=api@internal"
 
-      # Optional: basic auth middleware
-      - "traefik.http.routers.traefik.middlewares=traefik-auth"
+      # # Optional: basic auth middleware
+      # - "traefik.http.routers.traefik.middlewares=traefik-auth"
 
     networks:
       - proxy
