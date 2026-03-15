@@ -4,27 +4,25 @@ services:
     image: traefik:v2.11
     container_name: traefik
     restart: unless-stopped
+    environment:
+      - TRANSIP_ACCOUNT_NAME=maikelvdb # ← your TransIP username
+      - TRANSIP_PRIVATE_KEY_PATH=/transip/private.key
     command:
       - "--api.dashboard=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
-
       # Entrypoints
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
-
       # Redirect HTTP -> HTTPS
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
-      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-
-      # Let's Encrypt
+      - "--entrypoints.web.http.redirections.entrypoint.scheme=websecure"
+      # Let's Encrypt DNS challenge via TransIP
       - "--certificatesresolvers.le.acme.email=maikel@vandenbosch.dev"
       - "--certificatesresolvers.le.acme.storage=/letsencrypt/acme.json"
-      - "--certificatesresolvers.le.acme.httpchallenge=true"
-      - "--certificatesresolvers.le.acme.httpchallenge.entrypoint=web"
-
-      # Tell Traefik which network to use
-      - "--providers.docker.network=proxy"
+      - "--certificatesresolvers.le.acme.dnschallenge=true"
+      - "--certificatesresolvers.le.acme.dnschallenge.provider=transip"
+      - "--certificatesresolvers.le.acme.dnschallenge.resolvers=8.8.8.8:53"
 
     ports:
       - "80:80"
@@ -33,22 +31,15 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /letsencrypt:/letsencrypt
+      - /transip:/transip:ro # ← mount your private key here
 
     labels:
       - "traefik.enable=true"
-
-      # Dashboard router
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls.certresolver=le"
-
-      - "traefik.http.routers.traefik.rule=Host(`code-traefik.vandenbosch.dev`)" # ← dit mist!
+      - "traefik.http.routers.traefik.rule=Host(`code-traefik.vandenbosch.dev`)"
       - "traefik.http.routers.traefik.tls=true"
-
-      # Tell router to use internal api service
       - "traefik.http.routers.traefik.service=api@internal"
-
-      # # Optional: basic auth middleware
-      # - "traefik.http.routers.traefik.middlewares=traefik-auth"
 
     networks:
       - proxy
