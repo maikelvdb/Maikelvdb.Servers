@@ -7,6 +7,9 @@ services:
     environment:
       - TRANSIP_ACCOUNT_NAME=maikelvdb # ← your TransIP username
       - TRANSIP_PRIVATE_KEY_PATH=/transip/private.key
+      - TRANSIP_POLLING_INTERVAL=30
+      - TRANSIP_PROPAGATION_TIMEOUT=300
+      - LEGO_CA_CERTIFICATES=/etc/ssl/certs/ca-certificates.crt
     command:
       - "--api.dashboard=true"
       - "--providers.docker=true"
