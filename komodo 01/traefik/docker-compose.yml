@@ -24,6 +24,7 @@ services:
       - "--certificatesresolvers.le.acme.dnschallenge.provider=transip"
       - "--certificatesresolvers.le.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
       - "--certificatesresolvers.le.acme.dnschallenge.delaybeforecheck=30"
+      - "--certificatesresolvers.le.acme.dnschallenge.disablepropagationcheck=false"
 
       # Enable access log
       - "--log.level=DEBUG"
