@@ -36,6 +36,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./letsencrypt:/letsencrypt
+      - /transip:/transip:ro # ← mount your private key here
 
     labels:
       - "traefik.enable=true"
