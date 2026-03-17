@@ -48,7 +48,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.komodo.rule=Host(`komodo.vandenbosch.dev`)"
       - "traefik.http.routers.komodo.entrypoints=websecure"
-      - "traefik.http.routers.komodo.tls.certresolver=le"
+      - "traefik.http.routers.komodo.tls=true"
     networks:
       - proxy
 
