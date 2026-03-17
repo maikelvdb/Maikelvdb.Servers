@@ -27,7 +27,6 @@ services:
       - "--certificatesresolvers.le.acme.dnschallenge.provider=transip"
       - "--certificatesresolvers.le.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
       - "--certificatesresolvers.le.acme.dnschallenge.disablepropagationcheck=false"
-      - "--certificatesresolvers.le.acme.dnschallenge.delaybeforecheck=120"
 
       # Enable access log
       - "--log.level=DEBUG"
@@ -44,18 +43,14 @@ services:
 
     labels:
       - "traefik.enable=true"
-
-      # Dashboard router
       - "traefik.http.routers.traefik.rule=Host(`traefik.vandenbosch.dev`)"
       - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.tls=true"
       - "traefik.http.routers.traefik.tls.certresolver=le"
-
-      # Tell router to use internal api service
+      - "traefik.http.routers.traefik.tls.domains[0].main=vandenbosch.dev"
+      - "traefik.http.routers.traefik.tls.domains[0].sans=*.vandenbosch.dev"
       - "traefik.http.routers.traefik.service=api@internal"
-
-      # Optional: basic auth middleware
       - "traefik.http.routers.traefik.middlewares=traefik-auth"
-
       - "traefik.http.middlewares.traefik-auth.basicauth.users=admin:$$apr1$$AOhzuT1Z$$/c4GxPI6Z8O9/sEI4E2QE1"
 
     networks:
