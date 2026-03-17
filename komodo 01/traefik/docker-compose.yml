@@ -7,7 +7,7 @@ services:
     environment:
       - TRANSIP_ACCOUNT_NAME=maikelvdb # ← your TransIP username
       - TRANSIP_PRIVATE_KEY_PATH=/transip/private.key
-      - TRANSIP_POLLING_INTERVAL=30
+      - TRANSIP_POLLING_INTERVAL=60
       - TRANSIP_PROPAGATION_TIMEOUT=300
       - LEGO_CA_CERTIFICATES=/etc/ssl/certs/ca-certificates.crt
     command:
@@ -26,8 +26,8 @@ services:
       - "--certificatesresolvers.le.acme.dnschallenge=true"
       - "--certificatesresolvers.le.acme.dnschallenge.provider=transip"
       - "--certificatesresolvers.le.acme.dnschallenge.resolvers=1.1.1.1:53,8.8.8.8:53"
-      - "--certificatesresolvers.le.acme.dnschallenge.delaybeforecheck=30"
       - "--certificatesresolvers.le.acme.dnschallenge.disablepropagationcheck=false"
+      - "--certificatesresolvers.le.acme.dnschallenge.delaybeforecheck=120"
 
       # Enable access log
       - "--log.level=DEBUG"
