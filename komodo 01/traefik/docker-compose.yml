@@ -14,6 +14,8 @@ services:
       - "--api.dashboard=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
+      - "--providers.file.directory=/etc/traefik/dynamic"
+      - "--providers.file.watch=true"
       # Entrypoints
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
@@ -40,6 +42,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./letsencrypt:/letsencrypt
       - /transip:/transip:ro # ← mount your private key here
+      - ./dynamic:/etc/traefik/dynamic:ro
 
     labels:
       - "traefik.enable=true"
